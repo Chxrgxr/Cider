@@ -1,0 +1,20 @@
+name: Compile Cider
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install
+      - name: Compile Cider
+        run: pnpm dist -w --x64
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: CiderBuild
+          path: dist/
